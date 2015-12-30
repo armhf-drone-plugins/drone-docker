@@ -1,0 +1,3 @@
+[submodule "drone-docker"]
+	path = drone-docker
+	url = https://github.com/drone-plugins/drone-docker

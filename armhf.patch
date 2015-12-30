@@ -1,0 +1,17 @@
+diff --git a/Dockerfile b/Dockerfile
+index 41bb0f9..20294df 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -2,8 +2,10 @@
+ #
+ #     docker build --rm=true -t plugins/drone-docker .
+ 
+-FROM rancher/docker:1.9.1
++FROM docker:1.9.1-dind
++
++RUN ln -s /usr/local/bin/docker /usr/bin/docker
+ 
+ ADD drone-docker /go/bin/
+ VOLUME /var/lib/docker
+-ENTRYPOINT ["/usr/bin/dockerlaunch", "/go/bin/drone-docker"]
++ENTRYPOINT ["/go/bin/drone-docker"]
