@@ -3,12 +3,6 @@ clone:
   recursive: true
 
 build:
-  image: armhfbuild/alpine:3.2
-  commands:
-    - cd drone-docker
-    - patch -p1 <../armhf.patch
-
-build:
   image: armhfbuild/golang:1.5
   environment:
     - GO15VENDOREXPERIMENT=1
@@ -16,6 +10,7 @@ build:
     - GOARCH=arm
     - CGO_ENABLED=0
   commands:
+    - cp Dockerfile drone-docker/
     - cd drone-docker
     - go get
     - go build
