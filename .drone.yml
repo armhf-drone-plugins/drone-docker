@@ -17,7 +17,7 @@ build:
     - go test
 
 publish:
-  docker:
+  docker: &publish_docker
     context: drone-docker
     file: drone-docker/Dockerfile
     username: $$DOCKER_USER
@@ -28,6 +28,11 @@ publish:
     when:
       repo: armhf-drone-plugins/drone-docker
       branch: master
+  docker:
+    <<: *publish_docker
+    tag: $$BRANCH
+    when:
+      repo: armhf-drone-plugins/drone-docker
 
 plugin:
   name: Docker
