@@ -10,7 +10,7 @@ build:
     - CGO_ENABLED=0
   commands:
     - apt-get update && apt-get -y install patch
-    - git clone --single-branch https://github.com/drone-plugins/drone-docker drone-docker
+    - git clone --single-branch --branch docker-graph-caching https://github.com/djmaze/drone-docker drone-docker
     - cd drone-docker
     - patch -p1 <../armhf.patch
     - go get
