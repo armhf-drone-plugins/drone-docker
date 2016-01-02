@@ -1,6 +1,5 @@
 clone:
   path: github.com/drone-plugins
-  recursive: true
 
 build:
   image: armhfbuild/golang:1.5
@@ -11,6 +10,7 @@ build:
     - CGO_ENABLED=0
   commands:
     - apt-get update && apt-get -y install patch
+    - git clone --single-branch https://github.com/drone-plugins/drone-docker drone-docker
     - cd drone-docker
     - patch -p1 <../armhf.patch
     - go get
