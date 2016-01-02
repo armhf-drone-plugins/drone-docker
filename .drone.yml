@@ -10,8 +10,9 @@ build:
     - GOARCH=arm
     - CGO_ENABLED=0
   commands:
-    - cp Dockerfile drone-docker/
+    - apt-get update && apt-get -y install patch
     - cd drone-docker
+    - patch -p1 <../armhf.patch
     - go get
     - go build
     - go test
