@@ -1,13 +1,15 @@
 diff --git a/Dockerfile b/Dockerfile
-index 41bb0f9..20294df 100644
+index 41bb0f9..781ecd2 100644
 --- a/Dockerfile
 +++ b/Dockerfile
-@@ -2,8 +2,10 @@
+@@ -1,9 +1,11 @@
+ # Docker image for the docker plugin
  #
- #     docker build --rm=true -t plugins/drone-docker .
+-#     docker build --rm=true -t plugins/drone-docker .
++#     docker build --rm=true -t armhfplugins/drone-docker .
  
 -FROM rancher/docker:1.9.1
-+FROM docker:1.9.1-dind
++FROM armhfbuild/docker:1.9.1-dind
 +
 +RUN ln -s /usr/local/bin/docker /usr/bin/docker
  
@@ -15,3 +17,16 @@ index 41bb0f9..20294df 100644
  VOLUME /var/lib/docker
 -ENTRYPOINT ["/usr/bin/dockerlaunch", "/go/bin/drone-docker"]
 +ENTRYPOINT ["/go/bin/drone-docker"]
+diff --git a/main.go b/main.go
+index 32fea19..bf3255b 100644
+--- a/main.go
++++ b/main.go
+@@ -87,7 +87,7 @@ func main() {
+ 	}
+ 
+ 	go func() {
+-		args := []string{"-d"}
++		args := []string{"-d", "-g", "/drone/docker"}
+ 
+ 		if len(vargs.Storage) != 0 {
+ 			args = append(args, "-s", vargs.Storage)
