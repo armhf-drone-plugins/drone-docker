@@ -49,6 +49,14 @@ publish:
       matrix:
         BRANCH: master
 
+notify:
+  gitter:
+    webhook: https://webhooks.gitter.im/e/cac16e3f9e62a24bcd78
+
+  slack:
+    webhook_url: $$SLACK_WEBHOOK_URL
+    channel: armhf
+
 plugin:
   name: Docker
   desc: Build and Publish images to a Docker registry.
