@@ -1,3 +1,8 @@
+matrix:
+  BRANCH:
+    - master
+    - develop
+
 clone:
   path: github.com/drone-plugins
 
@@ -10,7 +15,7 @@ build:
     - CGO_ENABLED=0
   commands:
     - apt-get update && apt-get -y install patch
-    - git clone --single-branch https://github.com/drone-plugins/drone-docker drone-docker
+    - git clone --single-branch --branch $$BRANCH https://github.com/drone-plugins/drone-docker drone-docker
     - cd drone-docker
     - patch -p1 <../armhf.patch
     - go get
@@ -18,22 +23,31 @@ build:
     - go test
 
 publish:
-  docker: &publish_docker
+  docker_branch:
+    image: armhfplugins/drone-docker
     context: drone-docker
     file: drone-docker/Dockerfile
     username: $$DOCKER_USER
     password: $$DOCKER_PASSWORD
     email: $$DOCKER_EMAIL
     repo: armhfplugins/drone-docker
-    storage_driver: overlay
-    when:
-      repo: armhf-drone-plugins/drone-docker
-      branch: master
-  docker:
-    <<: *publish_docker
     tag: $$BRANCH
     when:
       repo: armhf-drone-plugins/drone-docker
+
+  docker_latest:
+    image: armhfplugins/drone-docker
+    context: drone-docker
+    file: drone-docker/Dockerfile
+    username: $$DOCKER_USER
+    password: $$DOCKER_PASSWORD
+    email: $$DOCKER_EMAIL
+    repo: armhfplugins/drone-docker
+    tag: latest
+    when:
+      repo: armhf-drone-plugins/drone-docker
+      matrix:
+        BRANCH: master
 
 plugin:
   name: Docker

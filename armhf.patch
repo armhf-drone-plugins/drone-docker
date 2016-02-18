@@ -17,16 +17,3 @@ index 41bb0f9..781ecd2 100644
  VOLUME /var/lib/docker
 -ENTRYPOINT ["/usr/bin/dockerlaunch", "/go/bin/drone-docker"]
 +ENTRYPOINT ["/go/bin/drone-docker"]
-diff --git a/main.go b/main.go
-index 32fea19..bf3255b 100644
---- a/main.go
-+++ b/main.go
-@@ -87,7 +87,7 @@ func main() {
- 	}
- 
- 	go func() {
--		args := []string{"-d"}
-+		args := []string{"-d", "-g", "/drone/docker"}
- 
- 		if len(vargs.Storage) != 0 {
- 			args = append(args, "-s", vargs.Storage)
